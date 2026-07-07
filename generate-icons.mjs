@@ -27,7 +27,7 @@ const screenshot1Svg = `
 const screenshot2Svg = `
 <svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
   <rect width="1920" height="1080" fill="#0B0C10" />
-  <text x="960" y="540" font-family="sans-serif" font-size="64" fill="#FFCC00" text-anchor="middle">Kelola Keuangan & Targetmu</text>
+  <text x="960" y="540" font-family="sans-serif" font-size="64" fill="#FFCC00" text-anchor="middle">Kelola Keuangan &amp; Targetmu</text>
 </svg>
 `;
 
