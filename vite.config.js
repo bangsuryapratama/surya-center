@@ -21,6 +21,10 @@ export default defineConfig({
         orientation: "portrait",
         start_url: "/",
         scope: "/",
+        id: "/",
+        dir: "ltr",
+        lang: "id-ID",
+        categories: ["productivity", "finance", "lifestyle"],
         icons: [
           { src: "icons/icon-192.png", sizes: "192x192", type: "image/png" },
           { src: "icons/icon-512.png", sizes: "512x512", type: "image/png" },
@@ -29,6 +33,29 @@ export default defineConfig({
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
+          },
+        ],
+        screenshots: [
+          {
+            src: "icons/screenshot1.png",
+            sizes: "1080x1920",
+            type: "image/png",
+            form_factor: "narrow",
+          },
+          {
+            src: "icons/screenshot2.png",
+            sizes: "1920x1080",
+            type: "image/png",
+            form_factor: "wide",
+          },
+        ],
+        shortcuts: [
+          {
+            name: "Tambah Catatan Uang",
+            short_name: "Uang",
+            description: "Catat pengeluaran atau pemasukan",
+            url: "/money",
+            icons: [{ src: "icons/icon-192.png", sizes: "192x192" }],
           },
         ],
       },
