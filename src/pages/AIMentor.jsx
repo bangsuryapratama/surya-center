@@ -16,6 +16,7 @@ export default function AIMentor() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   const bottomRef = useRef(null);
 
   // Load messages when active conversation changes
@@ -43,6 +44,7 @@ export default function AIMentor() {
       const newConv = await createConversation(user.id, "Percakapan Baru");
       conversations.refetch();
       setActiveId(newConv.id);
+      setShowSidebar(false);
     } catch (err) {
       console.error("Gagal membuat percakapan", err);
     }
@@ -93,11 +95,22 @@ export default function AIMentor() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)] overflow-hidden bg-background rounded-2xl border border-border">
+    <div className="flex h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)] overflow-hidden bg-background rounded-2xl border border-border relative">
       
-      {/* Sidebar for Desktop (Conversations) */}
-      <div className="w-64 border-r border-border hidden md:flex flex-col bg-surface-elevated/30">
-        <div className="p-4 border-b border-border">
+      {/* Mobile Overlay */}
+      {showSidebar && (
+        <div 
+          className="absolute inset-0 bg-black/60 z-20 md:hidden backdrop-blur-sm"
+          onClick={() => setShowSidebar(false)}
+        />
+      )}
+
+      {/* Sidebar for Desktop & Mobile */}
+      <div className={cn(
+        "w-72 md:w-64 border-r border-border flex flex-col bg-surface-elevated md:bg-surface-elevated/30 z-30 transition-transform duration-300 md:relative absolute inset-y-0 left-0",
+        showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      )}>
+        <div className="p-4 border-b border-border flex items-center justify-between">
           <Button onClick={handleNewChat} className="w-full justify-start gap-2" variant="outline">
             <Plus className="h-4 w-4" /> Percakapan Baru
           </Button>
@@ -109,7 +122,7 @@ export default function AIMentor() {
             conversations.data.map((c) => (
               <div
                 key={c.id}
-                onClick={() => setActiveId(c.id)}
+                onClick={() => { setActiveId(c.id); setShowSidebar(false); }}
                 className={cn(
                   "group flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-colors text-sm",
                   activeId === c.id ? "bg-sun/10 text-sun font-medium" : "hover:bg-surface-elevated text-foreground-muted hover:text-foreground"
@@ -133,6 +146,14 @@ export default function AIMentor() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <div className="flex items-center gap-3 p-4 border-b border-border bg-surface-elevated/10">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden shrink-0 -ml-2" 
+            onClick={() => setShowSidebar(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
           <div className="h-9 w-9 rounded-xl bg-dawn/15 flex items-center justify-center shrink-0"><Sparkles className="h-4 w-4 text-dawn" /></div>
           <div className="truncate">
             <h1 className="font-display font-bold truncate">Surya Mentor</h1>
